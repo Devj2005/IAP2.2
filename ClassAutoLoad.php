@@ -1,6 +1,8 @@
 <?php
-
-require 'Plugins/PHPMailer/vendor/autoload.php';
+require_once __DIR__ . '/Layouts/Layouts.php';
+require_once __DIR__ . '/Forms/Forms.php';
+require_once __DIR__ . '/Global/SendMail.php';
+require __DIR__ . '/Plugins/vendor/autoload.php';
 require 'conf.php';
 $directories = ['Layouts', 'Forms', 'Global'];
 

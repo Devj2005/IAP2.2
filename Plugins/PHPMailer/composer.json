@@ -1,0 +1,17 @@
+{
+    "name": "devyanjethwaa/php-mailer",
+    "require": {
+        "phpmailer/phpmailer": "^6.10"
+    },
+    "autoload": {
+        "psr-4": {
+            "Devyanjethwaa\\PhpMailer\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Devj2005",
+            "email": "vrindevj@gmail.com"
+        }
+    ]
+}
