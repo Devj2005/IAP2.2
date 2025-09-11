@@ -13,17 +13,19 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['signup'])) {
 		try {
 			$pdo = new PDO('mysql:host=localhost;dbname=hello', 'root', 'devyan2005');
 			$pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-			$stmt = $pdo->prepare('INSERT INTO users (name, email, password) VALUES (?, ?, ?)');
-			$stmt->execute([$name, $email, password_hash($password, PASSWORD_DEFAULT)]);
+			$token = bin2hex(random_bytes(16));
+			$stmt = $pdo->prepare('INSERT INTO users (name, email, password, token, verified) VALUES (?, ?, ?, ?, 0)');
+			$stmt->execute([$name, $email, password_hash($password, PASSWORD_DEFAULT), $token]);
 			// Send verification email
 			require_once 'Global/SendMail.php';
+			$verify_link = $conf['site_url'] . "/verify.php?token=" . urlencode($token);
 			$mailCnt = [
 				'mail_from' => 'noreply@gaminghub.org',
 				'name_from' => 'Gaming Hub',
 				'mail_to' => $email,
 				'name_to' => $name,
 				'subject' => 'Welcome to Gaming Hub! Account Verification',
-				'body' => "Hello {$name},<br><br>You requested an account on Gaming Hub.<br><br>In order to use this account you need to <a href='#'>Click Here</a> to complete the registration process.<br><br>Regards,<br>Systems Admin<br>Gaming Hub"
+				'body' => "Hello {$name},<br><br>You requested an account on Gaming Hub.<br><br>In order to use this account you need to <a href='{$verify_link}'>Click Here</a> to complete the registration process.<br><br>Regards,<br>Systems Admin<br>Gaming Hub"
 			];
 			$ObjSendMail = new SendMail();
 			$ObjSendMail->Send_Mail($conf, $mailCnt);
