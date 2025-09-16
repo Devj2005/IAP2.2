@@ -9,7 +9,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['signup'])) {
 	$name = trim($_POST['name'] ?? '');
 	$email = trim($_POST['email'] ?? '');
 	$password = $_POST['password'] ?? '';
-	if ($name && filter_var($email, FILTER_VALIDATE_EMAIL) && $password) {
+	if (empty($name) || empty($email) || empty($password)) {
+		$show_popup = true;
+		$popup_message = 'All fields are required.';
+	} else if ($name && filter_var($email, FILTER_VALIDATE_EMAIL) && $password) {
 		try {
 			$pdo = new PDO('mysql:host=localhost;dbname=hello', 'root', 'devyan2005');
 			$pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
