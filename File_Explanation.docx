@@ -1,0 +1,54 @@
+File Explanations for Gaming Hub Project
+
+This document explains the purpose of each main file in your project and how the email verification process works.
+
+1. Layouts/Layouts.php
+- Handles the overall look and structure of every page (header, navbar, banner, content, footer).
+- Uses Bootstrap and FontAwesome for modern design and icons.
+- The banner section is customizable and includes a call-to-action button.
+
+2. Forms/Forms.php
+- Contains the code for the signup and signin forms.
+- Each form is styled and collects user input (name, email, password).
+- The forms use POST method to send data to the server for processing.
+
+3. signup.php
+- Displays the signup form and processes user registration.
+- Validates user input and stores new users in the database (`users` table).
+- Generates a unique verification token for each user and saves it in the database.
+- Sends a verification email to the user with a special link to verify their account.
+- The verification link looks like: `http://localhost/IAP2.2/verify.php?token=...`
+- Shows a popup message when the verification email is sent.
+
+4. signin.php
+- Displays the signin form and processes user login.
+- Checks user credentials and ensures the account is verified before allowing access.
+- Redirects the user to the dashboard if login is successful.
+
+5. dashboard.php
+- Shows a simple dashboard page after the user signs in.
+- Displays gaming-related info and sections (profile, latest game, community stats).
+
+6. Global/SendMail.php
+- Contains the code for sending emails using PHPMailer.
+- Used by signup.php to send the verification email.
+- The email body includes the verification link for the user to click.
+
+7. verify.php
+- Handles account verification when the user clicks the link in their email.
+- Checks the token in the URL, marks the user as verified in the database, and shows a confirmation message.
+- If the token is invalid or already used, shows an appropriate message.
+
+8. conf.php
+- Stores configuration settings for the site (site name, database credentials, email settings, etc.).
+- Used by other files to access these settings.
+
+Where is the verify part in the email?
+- In signup.php, after a user registers, a unique token is generated and stored in the database.
+- The verification email is sent using SendMail.php, and the body of the email contains a link:
+  `http://localhost/IAP2.2/verify.php?token=...`
+- When the user clicks this link, verify.php checks the token and verifies the account.
+
+Summary:
+- Each file has a clear role: layout, forms, registration, login, dashboard, email sending, verification, and configuration.
+- The verification process is secure and ensures only users who click the email link can activate their account.
